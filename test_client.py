@@ -1,10 +1,11 @@
 import requests
+from datetime import datetime
 
 # Адрес сервера Flask
 url = 'http://127.0.0.17:5050/'
 
 # Данные запроса
-data = 'python'
+data = ['123abc13', datetime.now().isoformat()]
 
 # Отправка POST-запроса с данными
 response = requests.post(url, data=data)
