@@ -5,7 +5,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
+
 from datetime import datetime
+import requests
 
 class Datas(BoxLayout):
     def __init__(self, datas, **kwargs):
