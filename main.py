@@ -22,16 +22,13 @@ class Datas(BoxLayout):
         index_data = 0
         for data in self.data:
             index_data += 1
-            box_data = GridLayout(cols=4, height=40, size_hint_y=None)
+            box_data = GridLayout(cols=4, height=90, size_hint_y=None)
 
             car_number = Label(text=data[0])
             box_data.add_widget(car_number)
 
-            times = Label(text=data[1])
+            times = Label(text=data[1][2:7])
             box_data.add_widget(times)
-
-            client_no_client = Label(text=data[2])
-            box_data.add_widget(client_no_client)
 
             delate_button = Button(text=str(index_data))
             delate_button.bind(on_release=self.data_delate)
@@ -39,7 +36,7 @@ class Datas(BoxLayout):
 
             self.add_widget(box_data)
 
-        creat_data = GridLayout(cols=2, height=40, size_hint_y=None)
+        creat_data = GridLayout(cols=2, height=90, size_hint_y=None)
 
         self.input_text = TextInput(hint_text='123abc13', multiline=False)
         creat_data.add_widget(self.input_text)
@@ -69,10 +66,10 @@ class Datas(BoxLayout):
         dic = response.json()
         data_keys = list(dic.keys())
         if data_keys[0] == 'null':
-            return [['Нет','Данные','0']]
+            return [['Нет','Данные']]
         res = []
         for el_key in data_keys:
-            res.append([el_key, dic[el_key], str(datetime.now()-datetime.fromisoformat(dic[el_key]))])
+            res.append([el_key,str(datetime.now()-datetime.fromisoformat(dic[el_key]))])
         return res
 
     def data_create(self, instance):
