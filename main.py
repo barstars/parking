@@ -19,7 +19,9 @@ class Datas(BoxLayout):
     def create_widgets(self):
         self.clear_widgets()
 
+        index_data = 0
         for data in self.data:
+            index_data += 1
             box_data = GridLayout(cols=4, height=40, size_hint_y=None)
 
             car_number = Label(text=data[0])
@@ -31,7 +33,8 @@ class Datas(BoxLayout):
             client_no_client = Label(text=data[2])
             box_data.add_widget(client_no_client)
 
-            delate_button = Button(text="del")
+            delate_button = Button(text=str(index_data))
+            delate_button.bind(on_release=self.data_delate)
             box_data.add_widget(delate_button)
 
             self.add_widget(box_data)
@@ -89,6 +92,13 @@ class Datas(BoxLayout):
                 self.input_text.text = ''
                 self.input_text.hint_text = response.text
 
+    def data_delate(self, data):
+        ind = int(data.text)
+        data = self.data[ind-1][0]
+        url = 'http://127.0.0.1:5000/parking/delate_data'
+        response = requests.post(url, data=data)
+        self.update_data("")
+
 class Parking(App):
     def build(self):
         screen = ScrollView()
@@ -96,7 +106,6 @@ class Parking(App):
         screen.add_widget(self.widgets)
 
         return screen
-
 
 
 
