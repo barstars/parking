@@ -10,10 +10,10 @@ from datetime import datetime
 import requests
 
 class Datas(BoxLayout):
-    def __init__(self, datas, **kwargs):
+    def __init__(self, **kwargs):
         super(Datas, self).__init__(orientation="vertical", size_hint_y=None, spacing=5, **kwargs)
         self.bind(minimum_height=self.setter('height'))
-        self.data = datas
+        self.data = self.response_data()
         self.create_widgets()
 
     def create_widgets(self):
@@ -38,10 +38,11 @@ class Datas(BoxLayout):
 
         creat_data = GridLayout(cols=2, height=40, size_hint_y=None)
 
-        input_text = TextInput(multiline=False)
-        creat_data.add_widget(input_text)
+        self.input_text = TextInput(hint_text='123abc13', multiline=False)
+        creat_data.add_widget(self.input_text)
 
         creat_but = Button(text="Добавить")
+        creat_but.bind(on_release=self.data_create)
         creat_data.add_widget(creat_but)
 
         self.add_widget(creat_data)
@@ -51,24 +52,53 @@ class Datas(BoxLayout):
         self.add_widget(upload)
 
     def update_data(self, instance):
-        self.data = response_data()
+        self.data = self.response_data()
         self.create_widgets()
+
+    def response_data(self):
+        url = 'http://127.0.0.1:5000/parking/view_data'
+
+        # Данные запроса
+        data = {'1':'1'}
+
+        # Отправка POST-запроса с данными
+        response = requests.post(url, json=data)
+        dic = response.json()
+        data_keys = list(dic.keys())
+        if data_keys[0] == 'null':
+            return [['Нет','Данные','0']]
+        res = []
+        for el_key in data_keys:
+            res.append([el_key, dic[el_key], str(datetime.now()-datetime.fromisoformat(dic[el_key]))])
+        return res
+
+    def data_create(self, instance):
+        data = self.input_text.text
+        if data != "":
+            url = 'http://127.0.0.1:5000/parking/create_data'
+
+            # Данные запроса
+            time = datetime.now().isoformat()
+            data = {data:time}
+
+            # Отправка POST-запроса с данными
+            response = requests.post(url, json=data)
+            if response.text == "Success":
+                self.update_data("")
+            else:
+                self.input_text.text = ''
+                self.input_text.hint_text = response.text
 
 class Parking(App):
     def build(self):
         screen = ScrollView()
-        data = response_data()
-
-        self.widgets = Datas(data)
+        self.widgets = Datas()
         screen.add_widget(self.widgets)
 
         return screen
 
-def response_data():
-    do = datetime(2024, 6, 7, 19, 0, 24, 78915)
-    after = datetime.now()
-    time_diff = after - do
-    return [["204aes13", str(time_diff), "Клиент"] for _ in range(12)]
+
+
 
 if __name__ == '__main__':
     Parking().run()

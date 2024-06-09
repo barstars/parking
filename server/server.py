@@ -35,11 +35,14 @@ def view_data(num = '0'):
 		cursor.execute(view)
 		data = cursor.fetchall()
 		db.close()
-	datas = {}
-	for el in data:
-		datas.update({el[0]:el[1]})
+	if len(data) != 0:
+		datas = {}
+		for el in data:
+			datas.update({el[0]:el[1]})
 
-	return datas
+		return datas
+	else:
+		return {None:None}
 
 def delate_data(num):
 	db = sqlite3.connect('parking/bd.db')
