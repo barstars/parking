@@ -59,7 +59,7 @@ class Datas(BoxLayout):
         self.create_widgets()
 
     def response_data(self):
-        url = 'http://127.0.0.1:5000/parking/view_data'
+        url = 'https://muhammedeveloper1.pythonanywhere.com/parking/view_data'
 
         # Данные запроса
         data = {'1':'1'}
@@ -78,7 +78,7 @@ class Datas(BoxLayout):
     def data_create(self, instance):
         data = self.input_text.text
         if data != "":
-            url = 'http://127.0.0.1:5000/parking/create_data'
+            url = 'https://muhammedeveloper1.pythonanywhere.com/parking/create_data'
 
             # Данные запроса
             time = datetime.now().isoformat()
@@ -95,7 +95,7 @@ class Datas(BoxLayout):
     def data_delate(self, data):
         ind = int(data.text)
         data = self.data[ind-1][0]
-        url = 'http://127.0.0.1:5000/parking/delate_data'
+        url = 'https://muhammedeveloper1.pythonanywhere.com/parking/delate_data'
         response = requests.post(url, data=data)
         self.update_data("")
 
