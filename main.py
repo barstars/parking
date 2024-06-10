@@ -6,6 +6,8 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 
+from kivmob import KivMob, TestIds, RewardedListenerInterface
+
 from datetime import datetime
 import requests
 
@@ -100,6 +102,10 @@ class Datas(BoxLayout):
 
 class Parking(App):
     def build(self):
+        self.ads = KivMob(TestIds.APP)
+        self.ads.new_banner(TestIds.BANNER,False)
+        self.ads.request_banner()
+        self.ads.show_banner()
         screen = ScrollView()
         self.widgets = Datas()
         screen.add_widget(self.widgets)
