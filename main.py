@@ -27,7 +27,7 @@ class Datas(BoxLayout):
             car_number = Label(text=data[0])
             box_data.add_widget(car_number)
 
-            times = Label(text=data[1][2:7])
+            times = Label(text=data[1])
             box_data.add_widget(times)
 
             delate_button = Button(text=str(index_data))
@@ -47,7 +47,7 @@ class Datas(BoxLayout):
 
         self.add_widget(creat_data)
 
-        upload = Button(text="Обновить", height=40, size_hint_y=None)
+        upload = Button(text="Обновить", height=90, size_hint_y=None)
         upload.bind(on_release=self.update_data)
         self.add_widget(upload)
 
@@ -69,7 +69,9 @@ class Datas(BoxLayout):
             return [['Нет','Данные']]
         res = []
         for el_key in data_keys:
-            res.append([el_key,str(datetime.now()-datetime.fromisoformat(dic[el_key]))])
+            time = str(datetime.now()-datetime.fromisoformat(dic[el_key]))
+            string = time[:time.find(".")]
+            res.append([el_key,string])
         return res
 
     def data_create(self, instance):
