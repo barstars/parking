@@ -1,0 +1,14 @@
+The program saves only the data that the users themselves have specified.
+
+And transmits this data to everyone using this program.
+
+If you installed this application from Google Play, then Google Play does collect some personal data. Please see the privacy policy for Google Play Services here: https://policies.google.com/privacy
+
+The owner has every right to change the condition and all the others, without explaining the reasons.
+
+
+Программа сохраняет только те данные, которые пользователи сами указали, и передаёт эти данные на всех, использующих эту программу.
+
+Если вы установили это приложение из Google Play, то Google Play действительно собирает некоторые персональные данные. Пожалуйста, ознакомьтесь с политикой конфиденциальности сервисов Google Play здесь: https://policies.google.com/privacy
+
+Владелец имеет полное право изменить условия и все остальные условия без объяснения причин.
