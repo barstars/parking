@@ -17,11 +17,11 @@ class Datas(BoxLayout):
         self.bind(minimum_height=self.setter('height'))
         self.response_data()
 
-    def create_widgets(self, datas):
+    def create_widgets(self):
         self.clear_widgets()
 
         index_data = 0
-        for data in datas:
+        for data in self.data:
             index_data += 1
             box_data = GridLayout(cols=4, height=90, size_hint_y=None)
 
@@ -57,6 +57,7 @@ class Datas(BoxLayout):
 
     def update_data(self, response):
         dic = response.json()
+        print(dic)
         data_keys = list(dic.keys())
         if data_keys[0] == 'null':
             res = [['Нет','Данные']]
@@ -66,16 +67,13 @@ class Datas(BoxLayout):
                 a = dic[el_key]
                 dic_key = list(a.keys())[0]
                 time = (dic[el_key][dic_key])
-                string = time[:time.find(".")]
-                res.append([dic_key,string])
+                res.append([dic_key,time])
 
         self.data = res
-        self.create_widgets(res)
-        
+        self.create_widgets()
 
     def response_data(self):
         url = 'https://muhammedeveloper1.pythonanywhere.com/parking/view_data'
-        # url = 'http://192.168.1.7:5000/parking/view_data'
 
         # Данные запроса
         data = {'1':'1'}
@@ -99,13 +97,11 @@ class Datas(BoxLayout):
 
     def data_delate(self, data):
         ind = int(data.text)
-        if self.data[ind-1][1] != "Данные":
-            data = {"del":self.data[ind-1][0]}
-            print(data)
-            url = 'https://muhammedeveloper1.pythonanywhere.com/parking/delete_data'
-            # url = 'http://192.168.1.7:5000/parking/delete_data'
-            response = requests.post(url, json=data)
-            self.update_data(response)
+        data = {"del":self.data[ind-1][0]}
+        print(data)
+        url = 'https://muhammedeveloper1.pythonanywhere.com/parking/delete_data'
+        response = requests.post(url, json=data)
+        self.update_data(response)
 
 class Parking(App):
     def build(self):

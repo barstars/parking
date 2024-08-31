@@ -1,19 +1,19 @@
 from flask import Flask, request, jsonify
-from datetime import datetime
 import sqlite3
+from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 def create_data(datas):
     data = datetime.now().isoformat()
     num = datas["data"]
 
-    db = sqlite3.connect('parking/bd.db')
+    db = sqlite3.connect('servers/bd.db')
     cursor = db.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS cars(id INTEGER PRIMARY KEY AUTOINCREMENT, num TEXT, data TEXT)""")
     db.commit()
 
-   
+
     query = f"""INSERT INTO cars (num, data) VALUES('{num}', '{data}')"""
     cursor.execute(query)
     db.commit()
@@ -21,7 +21,7 @@ def create_data(datas):
     return view_data()
 
 def view_data():
-    db = sqlite3.connect('parking/bd.db')
+    db = sqlite3.connect('servers/bd.db')
     cursor = db.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS cars(id INTEGER PRIMARY KEY AUTOINCREMENT, num TEXT, data TEXT)""")
     db.commit()
@@ -37,13 +37,13 @@ def view_data():
         	beforData = datetime.fromisoformat(el[2])
         	nowData = datetime.now()
         	time = str(nowData - beforData)
-        	datas.update({ el[0]:{el[1]:time} })
+        	datas.update({ el[0]:{el[1]:time[:time.find(".")]} })
         return datas
     else:
         return {"null":None}
 
 def delate_data(num):
-    db = sqlite3.connect('parking/bd.db')
+    db = sqlite3.connect('servers/bd.db')
     cursor = db.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS cars(id INTEGER PRIMARY KEY AUTOINCREMENT, num TEXT, data TEXT)""")
     db.commit()
@@ -74,7 +74,3 @@ def view_data_parking():
 	view = view_data()
 
 	return jsonify(view)
-
-if __name__ == '__main__':
-
-    app.run(host="192.168.1.7",debug="True")
